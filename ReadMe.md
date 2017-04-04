@@ -16,5 +16,5 @@ Data was collected from the following sources
   * Python library integrating PostgreSQL
 
 ## Team Members
-* @jrogol
-* @meganstiles
+* James Rogol // @jrogol
+* Megan Stiles // @meganstiles
