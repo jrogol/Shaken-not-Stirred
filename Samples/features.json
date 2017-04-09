@@ -1,5 +1,3 @@
-/* Get audio features for several tracks */
-/* https://api.spotify.com/v1/audio-features?ids=x,x,x */
 {
   "audio_features" : [ {
     "danceability" : 0.366,
