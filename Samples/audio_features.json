@@ -1,6 +1,3 @@
-/*Get audio features for a single track*/
-/* https://api.spotify.com/v1/audio-analysis/id */
-
 {
   "bars": [
     {
