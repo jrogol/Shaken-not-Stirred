@@ -25,31 +25,28 @@ DAD = '1oP3qigyxt9YKSUtDx6qOm'
 Casino = '4GWyNknKDbVB8Lg1IiTy5k'
 Quantum = '2ahUhfrELmIHEUEiWUC1Nv'
 Skyfall = '0jovLA7GjtZrj7FHpL7N2g'
-spectre = '1csBgT42N4pPPs1HJhxXIK'
+spectre = '6EB2m0JP7libPTesn4kT2Z'
 
 bestOfBond = '2lHvf04m2IO93HC7PNdkfL'
 
 all_films = [Dr_No,FRWL,Goldfinger,Thunderball,YOLT,OHMSS,Diamonds,LLD,MwGG,TSWLM,Moonraker,FYEO,Octopussy,VtaK,Daylights, LtK,Goldeneye,TND,Enough,DAD,Casino,Quantum,Skyfall,spectre]
 
-
-# Conect to PSQL
-conn = psql.connect(
-    "dbname='bond' user=jamesrogol host=localhost")
 # Query the PostgreSQL database for films, append all_films as the album_id
-df = sql.read_sql('SELECT film FROM films;',conn).assign(album_id=all_films)
+df = sql.read_sql('SELECT film FROM films;',engine).assign(album_id=all_films)
 # Sanity Check!
 df
+
+conn = engine.connect()
+
 
 # Loop over the rows of the above data frame, and update the appropriate
 # information in the database
 for i in range(0,len(df)):
     try:
-        cur = conn.cursor()
         command = "UPDATE films SET album_id = '%s' WHERE film = '%s';"%(df.iloc[i]['album_id'],df.iloc[i]['film'])
-        cur.execute(command)
-        conn.commit()
-        cur.close()
+        engine.execute(command)
     except:
-        conn.rollback()
+        pass
+conn.close()
 # Sanity Check!
 sql.read_sql('SELECT * FROM films',conn)
