@@ -15,7 +15,3 @@ Data was collected from the following sources
 * [Wikipedia's List of Bond Films](https://en.wikipedia.org/wiki/List_of_James_Bond_films)
 * [Psycopg2](http://initd.org/psycopg/docs/index.html)
   * Python library integrating PostgreSQL
-
-## Team Members
-* James Rogol // @jrogol
-* Megan Stiles // @meganstiles
