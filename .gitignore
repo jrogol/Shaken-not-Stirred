@@ -3,3 +3,10 @@ keys.py
 Scratch/keys.py
 __pycache__
 .DS_store
+.Rproj.user
+
+.RData
+
+.Rhistory
+
+Shaken-not-Stirred.Rproj

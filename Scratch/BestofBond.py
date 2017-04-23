@@ -1,23 +1,17 @@
+''' this file obtains the songs from the "Best of Bond Album" '''
+
+from SpotipyFunctions import getTracks
+
 from pandas.io import sql
 import pandas as pd
 from sqlalchemy import create_engine
 import spotipy as s
-from spotipy.oauth2 import SpotifyClientCredentials
+import re
 
-from keys import client_ID,client_secret,oauth_token
-
-
-client_credentials_manager = SpotifyClientCredentials(client_id=client_ID, client_secret=client_secret)
-spotify = s.Spotify(client_credentials_manager=client_credentials_manager)
-
-# Establish link to the database
+bestOfBond = '2lHvf04m2IO93HC7PNdkfL'
 engine = create_engine('postgresql://jamesrogol@localhost:5432/bond')
 
-# Query the database for album IDs that exist
-ids = sql.read_sql("SELECT DISTINCT album_id FROM films WHERE album_id != ''", engine)
 
-# This function accepts an album ID and returns the tracks, writing them to the
-# table specified by the second argument.
 def getTracks(album_id, table):
         from pandas.io import sql
         import pandas as pd
@@ -48,12 +42,17 @@ def getTracks(album_id, table):
                             "artist_id":artistid})
         df1.to_sql(table,engine, if_exists='append')
 
-ids['album_id'].apply(lambda x: getTracks(x,'songs'))
-
-# Sanity Check
-sql.read_sql("SELECT * FROM songs", engine)
-
 def getSongs(song_ids, table):
+    from pandas.io import sql
+    import pandas as pd
+    from sqlalchemy import create_engine
+    import spotipy as s
+    import re
+    from spotipy.oauth2 import SpotifyClientCredentials
+    from keys import client_ID,client_secret,oauth_token
+
+    client_credentials_manager = SpotifyClientCredentials(client_id=client_ID, client_secret=client_secret)
+    spotify = s.Spotify(client_credentials_manager=client_credentials_manager)
 
     if len(song_ids) < 50:
         d = spotify.audio_features(song_ids)
@@ -70,11 +69,8 @@ def getSongs(song_ids, table):
 
     df.to_sql(table, engine)
 
+getTracks(bestOfBond,"bestof")
 
-# Get the list of song IDs
-tracks = sql.read_sql("SELECT track_id FROM songs;",engine)
+tracks = sql.read_sql("SELECT track_id FROM bestof;",engine)
 
-getSongs(tracks['track_id'], "tracks")
-
-# sanity Check
-sql.read_sql("SELECT * FROM tracks", engine)
+getSongs(tracks['track_id'], "titletracks")
