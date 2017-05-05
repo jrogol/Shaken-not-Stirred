@@ -1,5 +1,7 @@
 from pandas.io import sql
 import psycopg2 as psql
+import pandas as pd
+from sqlalchemy import create_engine
 
 # List of album IDs (obtained through Spotify software, copied the link)
 Dr_No = ''
@@ -16,7 +18,7 @@ Moonraker = '5mkRj3kQB6NW3wNLoqvnu7'
 FYEO = ''
 Octopussy = ''
 VtaK = ''
-Daylights = ''
+Daylights = '5V870FgJNzMTiLAGo6OMmE'
 LtK = ''
 Goldeneye = '4aBVXvgB75LzBQTbKiauQN'
 TND = '2UGZoHiNl2bDZyHIbaQ9Vo'
@@ -30,6 +32,9 @@ spectre = '6EB2m0JP7libPTesn4kT2Z'
 bestOfBond = '2lHvf04m2IO93HC7PNdkfL'
 
 all_films = [Dr_No,FRWL,Goldfinger,Thunderball,YOLT,OHMSS,Diamonds,LLD,MwGG,TSWLM,Moonraker,FYEO,Octopussy,VtaK,Daylights, LtK,Goldeneye,TND,Enough,DAD,Casino,Quantum,Skyfall,spectre]
+
+
+engine = create_engine('postgresql://jamesrogol@localhost:5432/bond')
 
 # Query the PostgreSQL database for films, append all_films as the album_id
 df = sql.read_sql('SELECT film FROM films;',engine).assign(album_id=all_films)
@@ -47,6 +52,8 @@ for i in range(0,len(df)):
         engine.execute(command)
     except:
         pass
-conn.close()
 # Sanity Check!
 sql.read_sql('SELECT * FROM films',conn)
+
+# disconnect
+conn.close()
