@@ -18,8 +18,8 @@ Moonraker = '5mkRj3kQB6NW3wNLoqvnu7'
 FYEO = ''
 Octopussy = ''
 VtaK = ''
-Daylights = '5V870FgJNzMTiLAGo6OMmE'
-LtK = ''
+Daylights = ''
+LtK = '5V870FgJNzMTiLAGo6OMmE'
 Goldeneye = '4aBVXvgB75LzBQTbKiauQN'
 TND = '2UGZoHiNl2bDZyHIbaQ9Vo'
 Enough = '39yJXK8vsNtRui2NQFBShp'
@@ -37,7 +37,7 @@ all_films = [Dr_No,FRWL,Goldfinger,Thunderball,YOLT,OHMSS,Diamonds,LLD,MwGG,TSWL
 engine = create_engine('postgresql://jamesrogol@localhost:5432/bond')
 
 # Query the PostgreSQL database for films, append all_films as the album_id
-df = sql.read_sql('SELECT film FROM films;',engine).assign(album_id=all_films)
+df = sql.read_sql('SELECT film FROM films ORDER BY yr;',engine).assign(album_id=all_films)
 # Sanity Check!
 df
 

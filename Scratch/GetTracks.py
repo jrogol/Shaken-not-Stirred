@@ -14,7 +14,7 @@ spotify = s.Spotify(client_credentials_manager=client_credentials_manager)
 engine = create_engine('postgresql://jamesrogol@localhost:5432/bond')
 
 # Query the database for album IDs that exist
-ids = sql.read_sql("SELECT DISTINCT album_id FROM films WHERE album_id != ''", engine)
+ids = sql.read_sql("SELECT DISTINCT album_id, film FROM films WHERE album_id != ''", engine)
 
 # This function accepts an album ID and returns the tracks, writing them to the
 # table specified by the second argument.
@@ -60,7 +60,7 @@ def getSongs(song_ids, table):
         df = pd.DataFrame(d).drop(['analysis_url', 'track_href', 'type','uri'],1)
 
     else:
-        # Need to query at most 50 tracks, pausing 30 seconds between.
+        # Need to query at most 50 tracks
         chunks = [song_ids[50*i:50*(i+1)] for i in range(round(len(song_ids)/50) + 1)]
         out = map(lambda x: spotify.audio_features(x),chunks)
         out2 = list(out)
@@ -68,7 +68,7 @@ def getSongs(song_ids, table):
         df = pd.concat(dfs)
         df.drop(['analysis_url', 'track_href', 'type','uri'],1,inplace=True)
 
-    df.to_sql(table, engine)
+    df.to_sql(table, engine, if_exists='append')
 
 
 # Get the list of song IDs
