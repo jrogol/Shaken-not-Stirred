@@ -6,15 +6,12 @@ from spotipy.oauth2 import SpotifyClientCredentials
 
 from keys import client_ID,client_secret,oauth_token
 
-
+# Create handlers for the sportify API
 client_credentials_manager = SpotifyClientCredentials(client_id=client_ID, client_secret=client_secret)
 spotify = s.Spotify(client_credentials_manager=client_credentials_manager)
 
 # Establish link to the database
 engine = create_engine('postgresql://jamesrogol@localhost:5432/bond')
-
-# Query the database for album IDs that exist
-ids = sql.read_sql("SELECT DISTINCT album_id, film FROM films WHERE album_id != ''", engine)
 
 # This function accepts an album ID and returns the tracks, writing them to the
 # table specified by the second argument.
@@ -48,11 +45,18 @@ def getTracks(album_id, table):
                             "artist_id":artistid})
         df1.to_sql(table,engine, if_exists='append')
 
+# Query the database for album IDs that exist
+ids = sql.read_sql("SELECT DISTINCT album_id, film FROM films WHERE album_id != ''", engine)
+
+# Get the tracks, and insert them into the 'songs' table
 ids['album_id'].apply(lambda x: getTracks(x,'songs'))
 
 # Sanity Check
 sql.read_sql("SELECT * FROM songs", engine)
 
+''' This Script takes a list of song IDs, chunks them into groups of 50
+    (as the spotify API won't accept more in a single query), fetches the audio
+    features from Spotify and inserts them into the table of one's choosing'''
 def getSongs(song_ids, table):
 
     if len(song_ids) < 50:
@@ -71,9 +75,10 @@ def getSongs(song_ids, table):
     df.to_sql(table, engine, if_exists='append')
 
 
-# Get the list of song IDs
+# Get the list of song IDs from the database
 tracks = sql.read_sql("SELECT track_id FROM songs;",engine)
 
+# Fetch the audio features and insert them into the 'tracks' table
 getSongs(tracks['track_id'], "tracks")
 
 # sanity Check

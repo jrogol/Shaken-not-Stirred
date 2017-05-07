@@ -7,6 +7,8 @@ import re
 
 import spotipy as s
 from spotipy.oauth2 import SpotifyClientCredentials
+import spotipy.util as util
+
 
 from keys import client_ID,client_secret,oauth_token
 
@@ -27,3 +29,18 @@ out2 = list(out)
 dfs = [pd.DataFrame(chunk) for chunk in out2]
 df = pd.concat(dfs)
 df.drop(['analysis_url', 'track_href', 'type','uri'],1,inplace=True)
+
+
+
+scope = 'playlist-modify-public'
+token = util.prompt_for_user_token('jrogol', scope,client_ID,client_secret)
+
+
+if token:
+    sp = s.Spotify(auth=token)
+    sp.trace = False
+    results = sp.user_playlist_add_tracks(username, playlist_id, track_ids)
+    print results
+else:
+    print "Can't get token for", username
+sp.user_playlist_create('jrogol','Lazenby')

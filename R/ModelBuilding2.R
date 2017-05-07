@@ -125,7 +125,7 @@ svm.fit <- train(actor~., train,
                  method = "svmRadial",
                  trControl = fitControl,
                  verbose = T,
-                 #tuneGrid = svm.grid,
+                 tuneGrid = svm.grid,
                  preProc = c("center","scale"),
                  metric = "AUC")
 
@@ -185,14 +185,14 @@ nn.fit <- train(actor~., train,
 
 
 
-#### Try everything, SMOTE'd, and with Accuracy ####
+#### Try everything, SMOTE'd ####
 
 fitControl <- trainControl(method = "repeatedcv",
                            number = 5,
                            repeats = 10,
                            sampling = "smote",
                            classProbs = T,
-                           #summaryFunction = multiClassSummary,
+                           summaryFunction = multiClassSummary,
                            allowParallel = T)
 #### NB ####
 
@@ -202,7 +202,7 @@ nb.fit2 <- train(actor~., train,
                  method = "nb",
                  trControl = fitControl,
                  tuneGrid = nb.grid,
-                 metric = "Accuracy")
+                 metric = "AUC")
 
 #### SVM ####
 set.seed(007)
@@ -212,7 +212,7 @@ svm.fit2 <- train(actor~., train,
                  verbose = T,
                  tuneGrid = svm.grid,
                  preProc = c("center","scale"),
-                 metric = "Accuracy")
+                 metric = "AUC")
 
 
 #### C5.0 Trees ####
@@ -225,7 +225,7 @@ c5.fit2 <- caret::train(actor~.,
                        verbose = T,
                        # preProc = c("center","scale"),
                        tuneGrid = c50Grid,
-                       metric = "Accuracy")
+                       metric = "AUC")
 
 #### Random Forest ####
 set.seed(007)
@@ -234,7 +234,7 @@ rf.fit2 <- train(actor~., train,
                 trControl = fitControl,
                 verbose = T,
                 tuneGrid = rf.grid,
-                metric = "Accuracy")
+                metric = "AUC")
 
 #### XGB Tree ####
 
@@ -244,7 +244,7 @@ xgb.fit2 <- train(actor~., train,
                  trControl = fitControl,
                  verbose = T,
                  tuneLength = 5,
-                 metric = "Accuracy")
+                 metric = "AUC")
 
 #### ANN ####
 
@@ -253,9 +253,9 @@ nn.fit2 <- train(actor~., train,
                 method = "dnn",
                 trControl = fitControl,
                 tuneGrid = nn.grid,
-                metric = "Accuracy")
+                metric = "AUC")
 
-#### Try everything, upsampled, and with Accuracy ####
+#### Try everything, upsampled ####
 
 fitControl$sampling = "up"
 
@@ -266,7 +266,7 @@ nb.fit3 <- train(actor~., train,
                        method = "nb",
                        trControl = fitControl,
                        tuneGrid = nb.grid,
-                       metric = "Accuracy")
+                       metric = "AUC")
 
 #### SVM ####
 set.seed(007)
@@ -276,7 +276,7 @@ svm.fit3 <- train(actor~., train,
                   verbose = T,
                   tuneGrid = svm.grid,
                   preProc = c("center","scale"),
-                  metric = "Accuracy")
+                  metric = "AUC")
 
 
 #### C5.0 Trees ####
@@ -289,7 +289,7 @@ c5.fit3 <- caret::train(actor~.,
                         verbose = T,
                         # preProc = c("center","scale"),
                         tuneGrid = c50Grid,
-                        metric = "Accuracy")
+                        metric = "AUC")
 
 #### Random Forest ####
 set.seed(007)
@@ -298,7 +298,7 @@ rf.fit3 <- train(actor~., train,
                  trControl = fitControl,
                  verbose = T,
                  tuneGrid = rf.grid,
-                 metric = "Accuracy")
+                 metric = "AUC")
 
 #### XGB Tree ####
 
@@ -308,7 +308,7 @@ xgb.fit3 <- train(actor~., train,
                   trControl = fitControl,
                   verbose = T,
                   tuneLength = 5,
-                  metric = "Accuracy")
+                  metric = "AUC")
 
 #### ANN ####
 
@@ -317,4 +317,4 @@ nn.fit3 <- train(actor~., train,
                  method = "dnn",
                  trControl = fitControl,
                  tuneGrid = nn.grid,
-                 metric = "Accuracy")
+                 metric = "AUC")

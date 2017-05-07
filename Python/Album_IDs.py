@@ -3,7 +3,7 @@ import psycopg2 as psql
 import pandas as pd
 from sqlalchemy import create_engine
 
-# List of album IDs (obtained through Spotify software, copied the link)
+# List of album IDs (obtained through Spotify software by copying the link)
 Dr_No = ''
 FRWL = ''
 Goldfinger = '2j2bpDzIPwQcbL9dapv2gV'
@@ -31,9 +31,11 @@ spectre = '6EB2m0JP7libPTesn4kT2Z'
 
 bestOfBond = '2lHvf04m2IO93HC7PNdkfL'
 
+# Create a list of all the Album IDs
 all_films = [Dr_No,FRWL,Goldfinger,Thunderball,YOLT,OHMSS,Diamonds,LLD,MwGG,TSWLM,Moonraker,FYEO,Octopussy,VtaK,Daylights, LtK,Goldeneye,TND,Enough,DAD,Casino,Quantum,Skyfall,spectre]
 
-
+# The connection to a local database.
+# A Future improvement would be to store this externally, and call it in multiple scripts
 engine = create_engine('postgresql://jamesrogol@localhost:5432/bond')
 
 # Query the PostgreSQL database for films, append all_films as the album_id
@@ -41,6 +43,7 @@ df = sql.read_sql('SELECT film FROM films ORDER BY yr;',engine).assign(album_id=
 # Sanity Check!
 df
 
+# Open a connection to the database
 conn = engine.connect()
 
 
