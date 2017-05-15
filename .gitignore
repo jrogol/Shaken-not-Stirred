@@ -4,9 +4,11 @@ Scratch/keys.py
 __pycache__
 .DS_store
 .Rproj.user
-
 .RData
-
 .Rhistory
-
 Shaken-not-Stirred.Rproj
+Samples/
+R/ModelBuilding2.R
+R/Bayes.R
+R/HelperFunctions.R
+R/TextMining.R

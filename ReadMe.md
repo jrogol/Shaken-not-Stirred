@@ -21,22 +21,22 @@ Data was collected and processed with help from the following sources:
 
 ## Workflow
 Data was collected in Python, and then processed in R
-* Python
-  * keys.py - Not included in the repository. Stores values for 'client_ID',
+* __Python__
+  * __keys.py__ - Not included in the repository. Stores values for 'client_ID',
     'client_secret' and 'oauth_token' required to access the Spotify API.
-  * films_scrape.py - Fetches the list of films from Wikipedia and
+  * __films_scrape.py__ - Fetches the list of films from Wikipedia and
     should be called first.
-  * Album_IDs.py - Inserts the album_id into the database, and should be called
+  * __Album_IDs.py__ - Inserts the album_id into the database, and should be called
     second.
-  * GetTracks.py - Inserts data for both Albums and individual tracks into the
+  * __GetTracks.py__ - Inserts data for both Albums and individual tracks into the
     database. Must be run after above scripts.
-  * PitchClass.py - May be called at anytime before processing in R
-* R
-  * Analysis.R - Calls all other necessary R scripts.
+  * __PitchClass.p__ - May be called at anytime before processing in R
+* __R__
+  * __Analysis.R__ - Calls all other necessary R scripts.
   * Packages Used:
-    * RPostgreSQL
-    * caret (and its dependencies)
-    * klaR (for Kernel-based Naive Bayes Classification)
-    * ggplot2
-    * ggfortify
-    * dplyr
+    * `RPostgreSQL`
+    * `caret` (and its dependencies)
+    * `klaR` (for Kernel-based Naive Bayes Classification)
+    * `ggplot2`
+    * `ggfortify`
+    * `dplyr`
